@@ -15,13 +15,13 @@ typedef struct BST {
 	BSTptr root;
 } BST;
 
-void BSTInsertNode(BST *pBST, int pKey);
+void insertBSTNodeInBST(BST *pBST, int pKey);
 
-void BSTBinarySearchVacancy(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey);
+void getVacancyPlaceForBSTNodeInBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey);
 
-void BSTCreateNode(BSTptr *pRoot, BSTptr pNode, int pKey);
+void createBSTNodeInBST(BSTptr *pRoot, BSTptr pNode, int pKey);
 
-void BSTCreate(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey);
+void createBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey);
 
 void BSTWalk(BST *pBST);
 
@@ -31,32 +31,26 @@ void printBST(BST *pBST);
 
 void printBSTInOrderTraversal(BSTptr pNode);
 
-void freeNode(BSTptr pNode);
+void freeBSTNode(BSTptr pNode);
 
 void freeBST(BST *pBST);
 
-BSTptr searchNode(BSTptr pNode, int pKey);
+void deleteBSTNodeFromBSTByKey(BST *pBST, int pKey);
 
-BSTptr searchBST(BST *pBST, int pKey);
+BSTptr getBSTNodeInSubBSTByKey(BSTptr pNode, int pKey);
 
-BSTptr searchMinimalSubBST(BSTptr pNode);
+BSTptr getBSTNodeInBSTByKey(BST *pBST, int pKey);
 
-BSTptr searchMaximumSubBST(BSTptr pNode);
+BSTptr getMinimalBSTNodeInSubBST(BSTptr pNode);
 
-BSTptr searchMinimalBST(BST *pBST);
+BSTptr getMaximalBSTNodeInSubBST(BSTptr pNode);
 
-BSTptr searchMaximumBST(BST *pBST);
+BSTptr getMinimalBSTNodeInBST(BST *pBST);
 
-BSTptr getParentNode(BSTptr pParent, BSTptr pNode);
+BSTptr getMaximalBSTNodeInBST(BST *pBST);
 
-BSTptr getParentNodeFromBST(BST *pBST, int pKey);
+BSTptr getParentOfBSTNode(BSTptr pParent, BSTptr pNode);
 
-void case_B(BST *pBST, BSTptr pNode, BSTptr pParent);
-
-void case_C(BST *pBST, BSTptr pNode, BSTptr pParent);
-
-void case_A(BST *pBST, BSTptr pNode, BSTptr pParent);
-
-void deleteNode(BST *pBST, int pKey);
+BSTptr getParentOfBSTNodeByKey(BST *pBST, int pKey);
 
 #endif

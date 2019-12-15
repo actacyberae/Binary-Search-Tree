@@ -1,13 +1,13 @@
 #include "./BST.h"
 
-void BSTInsertNode(BST *pBST, int pKey) {
-	BSTBinarySearchVacancy(pBST, &pBST->root, pBST->root, pKey);
+void insertBSTNodeInBST(BST *pBST, int pKey) {
+	getVacancyPlaceForBSTNodeInBST(pBST, &pBST->root, pBST->root, pKey);
 }
 
-void BSTBinarySearchVacancy(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
+void getVacancyPlaceForBSTNodeInBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
 	while (1) {
 		if (pNode == NULL) {
-			BSTCreate(pBST, pRoot, pNode, pKey);
+			createBST(pBST, pRoot, pNode, pKey);
 			break;
 		} else if (pKey < pNode->key) {
 			pRoot = &pNode->left;
@@ -19,14 +19,14 @@ void BSTBinarySearchVacancy(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
 	}
 }
 
-void BSTCreateNode(BSTptr *pRoot, BSTptr pNode, int pKey) {
+void createBSTNodeInBST(BSTptr *pRoot, BSTptr pNode, int pKey) {
 	pNode = *pRoot = (BSTptr) malloc(sizeof(BSTnode));
 	pNode->key = pKey;
 	pNode->left = pNode->right = NULL;
 }
 
-void BSTCreate(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
-	BSTCreateNode(pRoot, pNode, pKey);
+void createBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
+	createBSTNodeInBST(pRoot, pNode, pKey);
 	pBST->size++;
 }
 
@@ -54,24 +54,24 @@ void printBSTInOrderTraversal(BSTptr pNode) {
 	}
 }
 
-void freeNode(BSTptr pNode) {
+void freeBSTNode(BSTptr pNode) {
 	if (pNode != NULL) {
-		freeNode(pNode->left);
-		freeNode(pNode->right);
+		freeBSTNode(pNode->left);
+		freeBSTNode(pNode->right);
 		free(pNode);
 	}
 }
 
 void freeBST(BST *pBST) {
-	freeNode(pBST->root);
+	freeBSTNode(pBST->root);
 }
 
-BSTptr searchNode(BSTptr pNode, int pKey) {
+BSTptr getBSTNodeInSubBSTByKey(BSTptr pNode, int pKey) {
 	if (pNode != NULL) {
 		if (pKey < pNode->key) {
-			return searchNode(pNode->left, pKey);
+			return getBSTNodeInSubBSTByKey(pNode->left, pKey);
 		} else if (pKey > pNode->key) {
-			return searchNode(pNode->right, pKey);
+			return getBSTNodeInSubBSTByKey(pNode->right, pKey);
 		} else {
 			return pNode;
 		}
@@ -80,14 +80,14 @@ BSTptr searchNode(BSTptr pNode, int pKey) {
 	}
 }
 
-BSTptr searchBST(BST *pBST, int pKey) {
-	return searchNode(pBST->root, pKey);
+BSTptr getBSTNodeInBSTByKey(BST *pBST, int pKey) {
+	return getBSTNodeInSubBSTByKey(pBST->root, pKey);
 }
 
-BSTptr searchMinimalSubBST(BSTptr pNode) {
+BSTptr getMinimalBSTNodeInSubBST(BSTptr pNode) {
 	if (pNode != NULL) {
 		if (pNode->left != NULL) {
-			return searchMinimalSubBST(pNode->left);
+			return getMinimalBSTNodeInSubBST(pNode->left);
 		} else {
 			return pNode;
 		}
@@ -96,10 +96,10 @@ BSTptr searchMinimalSubBST(BSTptr pNode) {
 	}
 }
 
-BSTptr searchMaximumSubBST(BSTptr pNode) {
+BSTptr getMaximalBSTNodeInSubBST(BSTptr pNode) {
 	if (pNode != NULL) {
 		if (pNode->right != NULL) {
-			return searchMaximumSubBST(pNode->right);
+			return getMaximalBSTNodeInSubBST(pNode->right);
 		} else {
 			return pNode;
 		}
@@ -108,23 +108,23 @@ BSTptr searchMaximumSubBST(BSTptr pNode) {
 	}
 }
 
-BSTptr searchMinimalBST(BST *pBST) {
-	return searchMinimalSubBST(pBST->root);
+BSTptr getMinimalBSTNodeInBST(BST *pBST) {
+	return getMinimalBSTNodeInSubBST(pBST->root);
 }
 
-BSTptr searchMaximumBST(BST *pBST) {
-	return searchMaximumSubBST(pBST->root);
+BSTptr getMaximalBSTNodeInBST(BST *pBST) {
+	return getMaximalBSTNodeInSubBST(pBST->root);
 }
 
-BSTptr getParentNode(BSTptr pParent, BSTptr pNode) {
+BSTptr getParentOfBSTNode(BSTptr pParent, BSTptr pNode) {
 	if (pParent != NULL) {
 		if (pParent->right == pNode || pParent->left == pNode) {
 			return pParent;
 		} else {
 			if (pParent->key > pNode->key) {
-				return getParentNode(pParent->left, pNode);
+				return getParentOfBSTNode(pParent->left, pNode);
 			} else if (pParent->key < pNode->key) {
-				return getParentNode(pParent->right, pNode);
+				return getParentOfBSTNode(pParent->right, pNode);
 			} else {
 				return NULL;
 			}
@@ -134,14 +134,26 @@ BSTptr getParentNode(BSTptr pParent, BSTptr pNode) {
 	}
 }
 
-BSTptr getParentNodeFromBST(BST *pBST, int pKey) {
+BSTptr getParentOfBSTNodeByKey(BST *pBST, int pKey) {
 	BSTptr pNode;
 
-	pNode = searchBST(pBST, pKey);
+	pNode = getBSTNodeInBSTByKey(pBST, pKey);
 	if (pNode != NULL) {
-		return getParentNode(pBST->root, pNode);
+		return getParentOfBSTNode(pBST->root, pNode);
 	} else {
 		return NULL;
+	}
+}
+
+void case_A(BST *pBST, BSTptr pNode, BSTptr pParent) {
+	if (pParent != NULL) {
+		if (pParent->right == pNode) {
+			pParent->right = NULL;
+		} else {
+			pParent->left = NULL;
+		}
+	} else {
+		pBST->root = NULL;
 	}
 }
 
@@ -172,7 +184,7 @@ void case_B(BST *pBST, BSTptr pNode, BSTptr pParent) {
 void case_C(BST *pBST, BSTptr pNode, BSTptr pParent) {
 	BSTptr pMin;
 	
-	pMin = searchMinimalSubBST(pNode->right);
+	pMin = getMinimalBSTNodeInSubBST(pNode->right);
 	if (pParent != NULL) {
 		if (pParent->right == pNode) {
 			pParent->right = pMin;
@@ -191,26 +203,14 @@ void case_C(BST *pBST, BSTptr pNode, BSTptr pParent) {
 	pMin->left = pNode->left;
 }
 
-void case_A(BST *pBST, BSTptr pNode, BSTptr pParent) {
-	if (pParent != NULL) {
-		if (pParent->right == pNode) {
-			pParent->right = NULL;
-		} else {
-			pParent->left = NULL;
-		}
-	} else {
-		pBST->root = NULL;
-	}
-}
-
-void deleteNode(BST *pBST, int pKey) {
+void deleteBSTNodeFromBSTByKey(BST *pBST, int pKey) {
 	BSTptr pNode;
 	BSTptr pParent;
 	
-	pBST->size--;
-	pNode = searchBST(pBST, pKey);
+	pNode = getBSTNodeInBSTByKey(pBST, pKey);
 	if (pNode != NULL) {
-		pParent = getParentNodeFromBST(pBST, pKey);
+		pBST->size--;
+		pParent = getParentOfBSTNodeByKey(pBST, pKey);
 		if (pNode->right == NULL && pNode->left == NULL) {
 			case_A(pBST, pNode, pParent);
 		} else if (pNode->right == NULL || pNode->left == NULL) {
@@ -220,5 +220,4 @@ void deleteNode(BST *pBST, int pKey) {
 		}
 		free(pNode);
 	}
-	
 }
