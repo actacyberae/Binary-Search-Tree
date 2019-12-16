@@ -35,7 +35,7 @@ void freeBSTNode(BSTptr pNode);
 
 void freeBST(BST *pBST);
 
-void deleteBSTNodeFromBSTByKey(BST *pBST, int pKey);
+void deleteBSTNodeFromBST(BST *pBST, BSTptr pNode);
 
 BSTptr getBSTNodeInSubBSTByKey(BSTptr pNode, int pKey);
 

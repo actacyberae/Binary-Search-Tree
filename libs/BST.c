@@ -49,7 +49,19 @@ void printBST(BST *pBST) {
 void printBSTInOrderTraversal(BSTptr pNode) {
 	if (pNode != NULL) {
 		printBSTInOrderTraversal(pNode->left);
-		print_line(STDOUT_FILENO, "[%d].\n", pNode->key);
+		print_line(STDOUT_FILENO, "[");
+		if (pNode->left != NULL) {
+			print_line(STDOUT_FILENO, "%d|", (pNode->left)->key);
+		} else {
+			print_line(STDOUT_FILENO, "NULL|");
+		}
+		print_line(STDOUT_FILENO, "%d", pNode->key);
+		if (pNode->right != NULL) {
+			print_line(STDOUT_FILENO, "|%d", (pNode->right)->key);
+		} else {
+			print_line(STDOUT_FILENO, "|NULL");
+		}
+		print_line(STDOUT_FILENO, "]\n");
 		printBSTInOrderTraversal(pNode->right);
 	}
 }
@@ -145,72 +157,68 @@ BSTptr getParentOfBSTNodeByKey(BST *pBST, int pKey) {
 	}
 }
 
-void case_A(BST *pBST, BSTptr pNode, BSTptr pParent) {
-	if (pParent != NULL) {
-		if (pParent->right == pNode) {
-			pParent->right = NULL;
+void case_A(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
+	if (pDeletedNode != (pBST->root)) {
+		if (pParentOfDeletedNode->right == pDeletedNode) {
+			pParentOfDeletedNode->right = NULL;
 		} else {
-			pParent->left = NULL;
+			pParentOfDeletedNode->left = NULL;
 		}
 	} else {
 		pBST->root = NULL;
 	}
 }
 
-void case_B(BST *pBST, BSTptr pNode, BSTptr pParent) {
-	if (pParent != NULL) {
-		if (pParent->right == pNode) {
-			if (pNode->right != NULL) {
-				pParent->right = pNode->right;
-			} else {
-				pParent->right = pNode->left;
-			}
+void case_B(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
+	BSTptr pNewNode;
+	
+	if (pDeletedNode->left != NULL) {
+		pNewNode = pDeletedNode->left;
+	} else {
+		pNewNode = pDeletedNode->right;
+	}
+	if (pDeletedNode != (pBST->root)) {
+		if (pParentOfDeletedNode->right == pDeletedNode) {
+			pParentOfDeletedNode->right = pNewNode;
 		} else {
-			if (pNode->right != NULL) {
-				pParent->left = pNode->right;
-			} else {
-				pParent->left = pNode->left;
-			}
+			pParentOfDeletedNode->left = pNewNode;
 		}
 	} else {
-		if (pNode->right != NULL) {
-			pBST->root = pNode->right;
-		} else {
-			pBST->root = pNode->left;
-		}
+		(pBST->root) = pNewNode;
 	}
 }
 
-void case_C(BST *pBST, BSTptr pNode, BSTptr pParent) {
-	BSTptr pMin;
+void case_C(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
+	BSTptr pMinimalNodeOfTree;
+	BSTptr pMinimalNodeFromRightSubtreeOfDeletedNode;
+	BSTptr pParentOfMinimalNodeFromRightSubtreeOfDeletedNode;
 	
-	pMin = getMinimalBSTNodeInSubBST(pNode->right);
-	if (pParent != NULL) {
-		if (pParent->right == pNode) {
-			pParent->right = pMin;
+	pMinimalNodeFromRightSubtreeOfDeletedNode = getMinimalBSTNodeInSubBST(pDeletedNode->right);
+	pParentOfMinimalNodeFromRightSubtreeOfDeletedNode = getParentOfBSTNode(pBST->root, pMinimalNodeFromRightSubtreeOfDeletedNode);
+	if (pParentOfMinimalNodeFromRightSubtreeOfDeletedNode != pDeletedNode) {
+		pParentOfMinimalNodeFromRightSubtreeOfDeletedNode->left = pMinimalNodeFromRightSubtreeOfDeletedNode->right;
+	}
+	if (pMinimalNodeFromRightSubtreeOfDeletedNode != pDeletedNode->right) {
+		pMinimalNodeFromRightSubtreeOfDeletedNode->right = pDeletedNode->right;
+	}
+	pMinimalNodeFromRightSubtreeOfDeletedNode->left = pDeletedNode->left;
+	if (pDeletedNode != (pBST->root)) {
+		if (pParentOfDeletedNode->right == pDeletedNode) {
+			pParentOfDeletedNode->right = pMinimalNodeFromRightSubtreeOfDeletedNode;
 		} else {
-			pParent->left = pMin;
+			pParentOfDeletedNode->left = pMinimalNodeFromRightSubtreeOfDeletedNode;
 		}
 	} else {
-		pBST->root = pMin;
+		(pBST->root) = pMinimalNodeFromRightSubtreeOfDeletedNode;
 	}
-	
-	if (pNode->right != pMin) {
-		pMin->right = pNode->right;
-	} else {
-		pMin->right = pMin->right;
-	}
-	pMin->left = pNode->left;
 }
 
-void deleteBSTNodeFromBSTByKey(BST *pBST, int pKey) {
-	BSTptr pNode;
+void deleteBSTNodeFromBST(BST *pBST, BSTptr pNode) {
 	BSTptr pParent;
 	
-	pNode = getBSTNodeInBSTByKey(pBST, pKey);
 	if (pNode != NULL) {
 		pBST->size--;
-		pParent = getParentOfBSTNodeByKey(pBST, pKey);
+		pParent = getParentOfBSTNode(pBST->root, pNode);
 		if (pNode->right == NULL && pNode->left == NULL) {
 			case_A(pBST, pNode, pParent);
 		} else if (pNode->right == NULL || pNode->left == NULL) {
