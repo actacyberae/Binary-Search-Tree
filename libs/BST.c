@@ -1,10 +1,17 @@
 #include "./BST.h"
 
-void insertBSTNodeInBST(BST *pBST, int pKey) {
-	getVacancyPlaceForBSTNodeInBST(pBST, &pBST->root, pBST->root, pKey);
+static void createBSTNodeInBST(BSTptr *pRoot, BSTptr pNode, int pKey) {
+	pNode = *pRoot = (BSTptr) malloc(sizeof(BSTnode));
+	pNode->key = pKey;
+	pNode->left = pNode->right = NULL;
 }
 
-void getVacancyPlaceForBSTNodeInBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
+void createBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
+	createBSTNodeInBST(pRoot, pNode, pKey);
+	pBST->size++;
+}
+
+static void getVacancyPlaceForBSTNodeInBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
 	while (1) {
 		if (pNode == NULL) {
 			createBST(pBST, pRoot, pNode, pKey);
@@ -19,27 +26,8 @@ void getVacancyPlaceForBSTNodeInBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int 
 	}
 }
 
-void createBSTNodeInBST(BSTptr *pRoot, BSTptr pNode, int pKey) {
-	pNode = *pRoot = (BSTptr) malloc(sizeof(BSTnode));
-	pNode->key = pKey;
-	pNode->left = pNode->right = NULL;
-}
-
-void createBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey) {
-	createBSTNodeInBST(pRoot, pNode, pKey);
-	pBST->size++;
-}
-
-void BSTWalk(BST *pBST) {
-	BSTInOrderTraversal(pBST->root);
-}
-
-void BSTInOrderTraversal(BSTptr pNode) {
-	if (pNode != NULL) {
-		BSTInOrderTraversal(pNode->left);
-		// <- Some process -> //
-		BSTInOrderTraversal(pNode->right);
-	}
+void insertBSTNodeInBST(BST *pBST, int pKey) {
+	getVacancyPlaceForBSTNodeInBST(pBST, &pBST->root, pBST->root, pKey);
 }
 
 void printBST(BST *pBST) {
@@ -157,7 +145,7 @@ BSTptr getParentOfBSTNodeByKey(BST *pBST, int pKey) {
 	}
 }
 
-void case_A(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
+static void case_A(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
 	if (pDeletedNode != (pBST->root)) {
 		if (pParentOfDeletedNode->right == pDeletedNode) {
 			pParentOfDeletedNode->right = NULL;
@@ -169,7 +157,7 @@ void case_A(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
 	}
 }
 
-void case_B(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
+static void case_B(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
 	BSTptr pNewNode;
 	
 	if (pDeletedNode->left != NULL) {
@@ -188,7 +176,7 @@ void case_B(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
 	}
 }
 
-void case_C(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
+static void case_C(BST *pBST, BSTptr pDeletedNode, BSTptr pParentOfDeletedNode) {
 	BSTptr pMinimalNodeOfTree;
 	BSTptr pMinimalNodeFromRightSubtreeOfDeletedNode;
 	BSTptr pParentOfMinimalNodeFromRightSubtreeOfDeletedNode;
