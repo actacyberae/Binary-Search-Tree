@@ -3,6 +3,13 @@
 
 #include "./lib.h"
 
+#define ER_EMPTYTREE -1
+#define ER_EMPTYNODE -2
+#define ER_UNKNWPRNT -3
+
+#define TRUE 1
+#define FALSE 0
+
 typedef struct node *BSTptr;
 
 typedef struct node {
@@ -15,34 +22,14 @@ typedef struct BST {
 	BSTptr root;
 } BST;
 
-void insertBSTNodeInBST(BST *pBST, int pKey);
+void Insert_node(BST *pBST, int pKey);
 
-void createBST(BST *pBST, BSTptr *pRoot, BSTptr pNode, int pKey);
+void tree_info(BST *pBST);
 
-void printBST(BST *pBST);
+void Free_tree(BST *pBST);
 
-void printBSTInOrderTraversal(BSTptr pNode);
+void Free_node(BST *pBST, BSTptr pNode);
 
-void freeBSTNode(BSTptr pNode);
-
-void freeBST(BST *pBST);
-
-BSTptr getBSTNodeInSubBSTByKey(BSTptr pNode, int pKey);
-
-BSTptr getBSTNodeInBSTByKey(BST *pBST, int pKey);
-
-BSTptr getMinimalBSTNodeInSubBST(BSTptr pNode);
-
-BSTptr getMinimalBSTNodeInBST(BST *pBST);
-
-BSTptr getMaximalBSTNodeInSubBST(BSTptr pNode);
-
-BSTptr getMaximalBSTNodeInBST(BST *pBST);
-
-BSTptr getParentOfBSTNodeByKey(BST *pBST, int pKey);
-
-BSTptr getParentOfBSTNode(BSTptr pParent, BSTptr pNode);
-
-void deleteBSTNodeFromBST(BST *pBST, BSTptr pNode);
+void Get_node(BST *pBST, int pKey, BSTptr *pNode);
 
 #endif

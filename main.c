@@ -6,73 +6,75 @@
 int main (int argc, char *argv[]) {
 	BST pBST = {0, NULL};
 	BSTptr pNode;
+	Insert_node(&pBST, 40);
+	Insert_node(&pBST, 30);
+	Insert_node(&pBST, 35);
+	Insert_node(&pBST, 34);
+	Insert_node(&pBST, 32);
+	Insert_node(&pBST, 25);
+	Insert_node(&pBST, 1);
+	Insert_node(&pBST, 27);
+	Insert_node(&pBST, 26);
+	Insert_node(&pBST, 28);
+	Insert_node(&pBST, 60);
+	Insert_node(&pBST, 50);
+	Insert_node(&pBST, 47);
+	Insert_node(&pBST, 55);
+	Insert_node(&pBST, 57);
+	Insert_node(&pBST, 52);
+	Insert_node(&pBST, 54);
+	Insert_node(&pBST, 53);
+	Insert_node(&pBST, 70);
+	Insert_node(&pBST, 65);
+	Insert_node(&pBST, 75);
+	tree_info(&pBST);
 	
-	insertBSTNodeInBST(&pBST, 40);
-	insertBSTNodeInBST(&pBST, 30);
-	insertBSTNodeInBST(&pBST, 35);
-	insertBSTNodeInBST(&pBST, 31);
-	insertBSTNodeInBST(&pBST, 34);
-	insertBSTNodeInBST(&pBST, 33);
-	insertBSTNodeInBST(&pBST, 25);
-	insertBSTNodeInBST(&pBST, 1);
-	insertBSTNodeInBST(&pBST, 27);
-	insertBSTNodeInBST(&pBST, 26);
-	insertBSTNodeInBST(&pBST, 28);
-	insertBSTNodeInBST(&pBST, 60);
-	insertBSTNodeInBST(&pBST, 50);
-	insertBSTNodeInBST(&pBST, 47);
-	insertBSTNodeInBST(&pBST, 55);
-	insertBSTNodeInBST(&pBST, 57);
-	insertBSTNodeInBST(&pBST, 52);
-	insertBSTNodeInBST(&pBST, 54);
-	insertBSTNodeInBST(&pBST, 53);
-	insertBSTNodeInBST(&pBST, 70);
-	insertBSTNodeInBST(&pBST, 65);
-	insertBSTNodeInBST(&pBST, 75);
-	printBST(&pBST);
+	
 	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 40);
+	Get_node(&pBST, 25, &pNode);
 	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
 	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
+	Free_node(&pBST, pNode);
+	tree_info(&pBST);
+	
 	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 60);
+	Get_node(&pBST, 75, &pNode);
 	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
 	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
+	Free_node(&pBST, pNode);
+	tree_info(&pBST);
+	
 	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 25);
+	Get_node(&pBST, 34, &pNode);
 	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
 	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
+	Free_node(&pBST, pNode);
+	tree_info(&pBST);
+	
 	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 34);
+	Get_node(&pBST, 32, &pNode);
 	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
 	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
+	Free_node(&pBST, pNode);
+	tree_info(&pBST);
+	
 	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 52);
+	Get_node(&pBST, 1, &pNode);
 	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
 	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
+	Free_node(&pBST, pNode);
+	tree_info(&pBST);
+	
+	
 	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 1);
-	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
+	Get_node(&pBST, 33, &pNode);
+	
 	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
-	print_line(STDOUT_FILENO, "========\n");
-	pNode = getBSTNodeInBSTByKey(&pBST, 33);
-	print_line(STDOUT_FILENO, "DELETE NODE: [%d]\n", pNode->key);
-	print_line(STDOUT_FILENO, "========\n");
-	deleteBSTNodeFromBST(&pBST, pNode);
-	printBST(&pBST);
+	Free_node(&pBST, pNode);
+	tree_info(&pBST);
+	
 	print_line(STDOUT_FILENO, "Exit\n");
-	freeBST(&pBST);
+	Free_tree(&pavBST);
+	
 	return 0;
 }
