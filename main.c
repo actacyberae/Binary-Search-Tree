@@ -74,7 +74,7 @@ int main (int argc, char *argv[]) {
 	tree_info(&pBST);
 	
 	print_line(STDOUT_FILENO, "Exit\n");
-	Free_tree(&pavBST);
+	Free_tree(&pBST);
 	
 	return 0;
 }

@@ -148,54 +148,6 @@ static int Is_node_a_left_child(BSTptr pNode, BSTptr pParent) {
 }
 
 /*
-* Функция возвращает брата вершины pNode дерева pBST. В случае, если бер
-* ется корень дерева pBST, то возвращается само корневое значение. Пусть
-* корень поддерева обозначается буквой A, а его левый и правый потомки -
-* B и C соответственно. Данные сохраняются в pNodeBrother по значению.  
-*      |
-*      A
-*     / \
-*    /   \
-*   B     C
-* Тогда вызов функции get_sibling_node для узла C вернет вершину B.
-*/
-static int get_sibling_node(BST *pBST, BSTptr pNode, BSTptr *pNodeBrother) {
-	BSTptr pParent;
-	
-	if (pBST == NULL) {
-		return ER_EMPTYTREE;
-	}
-	if (pNode == NULL) {
-		return ER_EMPTYNODE;
-	}
-	if (pBST->root != pNode) {
-		Get_parent_of_node(pBST, pNode, &pParent);
-		if (Is_node_a_left_child(pNode, pParent) == TRUE) {
-			*pNodeBrother = pParent->right;
-		} else {
-			*pNodeBrother = pParent->left;
-		}
-	} else {
-		*pNodeBrother = NULL;
-	}
-	return TRUE;
-}
-
-static void Get_sibling_node(BST *pBST, BSTptr pNode, BSTptr *pNodeBrother) {
-	int RETURN;
-	
-	RETURN = get_sibling_node(pBST, pNode, pNodeBrother);
-	switch (RETURN) {
-		case ER_EMPTYTREE:
-			err_msg("get_sibling_node: ER_EMPTYTREE\n");
-			exit(EXIT_FAILURE);
-		case ER_EMPTYNODE:
-			err_msg("get_sibling_node: ER_EMPTYNODE\n");
-			exit(EXIT_FAILURE);
-	}
-}
-
-/*
 * Функция возвращает вершину с минимальным ключом в поддереве с корнем в
 * A. Архитектура дерева такова, что минимальная вершина всегда будет леж
 * ать слева от корня. Для дерева приведенного ниже, такой вершиной будет
@@ -226,7 +178,7 @@ static void Get_minimal_node(BSTptr pRoot, BSTptr *pNodeBrother) {
 	RETURN = get_minimal_node(pRoot, pNodeBrother);
 	switch (RETURN) {
 		case ER_EMPTYNODE:
-			err_msg("get_sibling_node: ER_EMPTYNODE\n");
+			err_msg("get_minimal_node: ER_EMPTYNODE\n");
 			exit(EXIT_FAILURE);
 	}
 }
